@@ -27,27 +27,32 @@ import * as mapboxgl from 'mapbox-gl'
 })
 export class ZoomRangeComponent implements AfterViewInit {
   //Por medio del decorado @viewChield se hace referencia al mapa de la vista html
-  @ViewChild('mapa') divMapa!: ElementRef
-  mapa!:mapboxgl.Map;
+  @ViewChild('mapa') divMapa!  : ElementRef;
+  
+    mapa!     : mapboxgl.Map;
+    zoomLevel : number = 16;
 
   constructor() { }
-
+  /* Se implementa ngAfterViewInit() debido a que la informacion ya esta lista en este ciclo de vida 
+     a diferencia de ngOnInit*/
   ngAfterViewInit(): void {
 
     this.mapa = new mapboxgl.Map({
       container:this.divMapa.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
       center:[-98.76848261905333, 19.127491747406925],
-      zoom:16
+      zoom:this.zoomLevel
+    });
+    // Con el metodo on() se crea un listener
+    this.mapa.on('zoom', (e)=>{
+      const zoomActual = this.mapa.getZoom()
+      this.zoomLevel = zoomActual
     })
   }
-  zoomIn(){
-    console.log('zoomIn');
+  zoomInP(){
     this.mapa.zoomIn()
-    
   }
-  zoomOut(){
-    console.log('zoomOut');
+  zoomOutP(){
     this.mapa.zoomOut()
   }
 }
