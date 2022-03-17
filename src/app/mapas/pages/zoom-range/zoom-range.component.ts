@@ -25,15 +25,26 @@ import * as mapboxgl from 'mapbox-gl'
 })
 export class ZoomRangeComponent implements OnInit {
 
+  mapa!:mapboxgl.Map;
+
   constructor() { }
 
   ngOnInit(): void {
-    var map = new mapboxgl.Map({
+
+    this.mapa = new mapboxgl.Map({
       container:'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
       center:[-98.76848261905333, 19.127491747406925],
       zoom:16
     })
   }
-
+  zoomIn(){
+    console.log('zoomIn');
+    this.mapa.zoomIn()
+    
+  }
+  zoomOut(){
+    console.log('zoomOut');
+    this.mapa.zoomOut()
+  }
 }
