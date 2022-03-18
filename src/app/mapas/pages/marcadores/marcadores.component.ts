@@ -31,6 +31,8 @@ export class MarcadoresComponent implements AfterViewInit {
   mapa!     : mapboxgl.Map;
   zoomLevel : number = 16;
   center    : [number, number] = [-98.76848261905333, 19.127491747406925]
+  // arreglo de marcadores
+  marcadores: mapboxgl.Marker[] = []
 
   constructor() { }
 
@@ -72,6 +74,8 @@ export class MarcadoresComponent implements AfterViewInit {
     })
       .setLngLat(this.center)
       .addTo(this.mapa)
+      // se añade el nuevo marcador dentro del arreglo declarado en las propiedades
+      this.marcadores.push(nuevoMarcador)
   }
   irMarcador(){}
 }
