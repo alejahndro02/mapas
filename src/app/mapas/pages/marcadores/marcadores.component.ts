@@ -32,15 +32,17 @@ export class MarcadoresComponent implements AfterViewInit {
       style: 'mapbox://styles/mapbox/streets-v11',
       center:this.center,
       zoom:this.zoomLevel
-      
+
     });
     
     /* otra forma de crear un marcador es creando un div pero en lugar de poner un marcador tipo 
      pin pone un marcador tipo texto */
+    //  Marcador perzonalizadoo
     const markerHtml: HTMLElement = document.createElement('div');
     markerHtml.innerHTML='hola componente';
 
-    // Se crea una instacia nueva para crear un marcador 
+    // Se crea una instacia nueva para crear un marcador
+    // marcador por defecto  
     const marker = new mapboxgl.Marker({element:markerHtml})
     .setLngLat(this.center)
     .addTo(this.mapa);
