@@ -4,8 +4,9 @@
         + Agregar
     </li>
     <li class="list-group-item"
-        (click)="irMarcador()">
-        markker1
+        (click)="irMarcador()"
+        *ngFor="let marcador of marcadores; let i = index">
+        marcador {{i + 1}}
     </li>
 </ul>
 
