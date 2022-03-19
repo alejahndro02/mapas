@@ -5,8 +5,9 @@ import    { AfterViewInit,
 import * as mapboxgl         from 'mapbox-gl';
 
 interface MarcadorColor{
-  color:string
-  marcadorColor:mapboxgl.Marker
+  centro?        : [ number, number ],
+  color          : string,
+  marcadorColor?  : mapboxgl.Marker,
 }
 
 @Component({
@@ -52,9 +53,6 @@ export class MarcadoresComponent implements AfterViewInit {
       zoom:this.zoomLevel
 
     });
-    // marcadores Dinamicos
-    
-
 
     //  marcadodes estaticos que se inicializan cuando se inicailiza el componente 
 
@@ -85,21 +83,48 @@ export class MarcadoresComponent implements AfterViewInit {
       this.marcadores.push({
         color,
         marcadorColor:nuevoMarcador
-      })
-      console.log(this.marcadores);
+      });
+      this.addMarcadorLocalStorage()
   }
   // Esta solucion es la que relaice esta opcion es valida si enel html unicamente se le pasa como argumento marcador en el metodo 
-  /*  irMarcador(coordenadas:MarcadorColor){
-    console.log('dewefad',coordenadas.marcadorColor.getLngLat());
+  /**
+  irMarcador(coordenadas:MarcadorColor){
+    console.log('dewefad',coordenadas.marcadorColor?.getLngLat());
     
     this.mapa.flyTo({
-      center:coordenadas.marcadorColor.getLngLat()
+      center:coordenadas.marcadorColor?.getLngLat()
     })
-  } 
-  */
+        // Se crea arreglo 
+        const lngArr:MarcadorColor[]=[]
+        this.marcadores.forEach(m => {
+          const color = m.color
+          const {lng, lat} = m.marcadorColor!.getLngLat();
+          lngArr.push({
+            color,
+            centro:[ lng, lat]
+          })
+        })
+    localStorage.setItem('marcadores', JSON.stringify(lngArr))
+
+      }
+  } */
+  
   irMarcador(coordenadas:mapboxgl.Marker){
     this.mapa.flyTo({
       center:coordenadas.getLngLat()
     })
+  }
+  addMarcadorLocalStorage(){
+    // Se crea arreglo 
+    const lngArr:MarcadorColor[]=[]
+    this.marcadores.forEach(m => {
+      const color = m.color
+      const {lng, lat} = m.marcadorColor!.getLngLat();
+      lngArr.push({
+        color,
+        centro:[ lng, lat]
+      })
+    })
+    localStorage.setItem('marcadores', JSON.stringify(lngArr))
   }
 }
