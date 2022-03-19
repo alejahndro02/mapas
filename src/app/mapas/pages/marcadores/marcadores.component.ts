@@ -86,6 +86,9 @@ export class MarcadoresComponent implements AfterViewInit {
         marcadorColor:nuevoMarcador
       });
       this.addMarcadorLocalStorage()
+      nuevoMarcador.on('dragend',()=>{
+        this.addMarcadorLocalStorage( )        
+      })
   }
 
   irMarcador(coordenadas:mapboxgl.Marker){
@@ -117,7 +120,6 @@ export class MarcadoresComponent implements AfterViewInit {
       const newMarcador= new mapboxgl.Marker({
         color:m.color,
         draggable:true,
-
       })
       .setLngLat(m.centro!)
       .addTo(this.mapa);
@@ -125,9 +127,11 @@ export class MarcadoresComponent implements AfterViewInit {
       this.marcadores.push({
         marcadorColor:newMarcador,
         color: m.color
+      });
+      // Se crea un listener 
+      newMarcador.on('dragend',()=>{
+        this.addMarcadorLocalStorage( )        
       })
-    })
-
-    
+    });
   }
 }
