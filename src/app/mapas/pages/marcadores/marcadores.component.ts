@@ -28,6 +28,10 @@ interface MarcadorColor{
     li{
       cursor:pointer;
     }
+    span{
+      z-index:3;
+      color:red
+    }
   `
   ]
 })
@@ -92,8 +96,11 @@ export class MarcadoresComponent implements AfterViewInit {
   }
 
   irMarcador(coordenadas:mapboxgl.Marker){
+    console.log('fly');
+    
     this.mapa.flyTo({
       center:coordenadas.getLngLat()
+
     })
   }
   /*Se guarda marcador en el LocalStorage */
@@ -133,5 +140,14 @@ export class MarcadoresComponent implements AfterViewInit {
         this.addMarcadorLocalStorage( )        
       })
     });
+  }
+  borrarMarcador(i:number){
+    console.log('borrando');
+    // Se elimina del arrgelo del mapa
+    this.marcadores[i].marcadorColor?.remove();
+    // Se elimina del arreglo 
+    this.marcadores.splice(i, 1)
+    // Se guarda el nuevo arreglo dentro del localStorage
+    this.addMarcadorLocalStorage()
   }
 }
