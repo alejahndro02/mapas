@@ -87,16 +87,19 @@ export class MarcadoresComponent implements AfterViewInit {
         marcadorColor:nuevoMarcador
       })
       console.log(this.marcadores);
-      
-      // for (let marcador of this.marcadores) {
-      //   console.log(marcador.color);
-        
-      // }
-      // this.marcadores.forEach(marcador => {
-      //   console.log('forE',marcador);
-        
-      // });
   }
-  irMarcador(){
+  // Esta solucion es la que relaice esta opcion es valida si enel html unicamente se le pasa como argumento marcador en el metodo 
+  /*  irMarcador(coordenadas:MarcadorColor){
+    console.log('dewefad',coordenadas.marcadorColor.getLngLat());
+    
+    this.mapa.flyTo({
+      center:coordenadas.marcadorColor.getLngLat()
+    })
+  } 
+  */
+  irMarcador(coordenadas:mapboxgl.Marker){
+    this.mapa.flyTo({
+      center:coordenadas.getLngLat()
+    })
   }
 }
