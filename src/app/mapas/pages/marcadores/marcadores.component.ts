@@ -53,6 +53,7 @@ export class MarcadoresComponent implements AfterViewInit {
       zoom:this.zoomLevel
 
     });
+    this.readLocalSorage()
 
     //  marcadodes estaticos que se inicializan cuando se inicailiza el componente 
 
@@ -86,34 +87,13 @@ export class MarcadoresComponent implements AfterViewInit {
       });
       this.addMarcadorLocalStorage()
   }
-  // Esta solucion es la que relaice esta opcion es valida si enel html unicamente se le pasa como argumento marcador en el metodo 
-  /**
-  irMarcador(coordenadas:MarcadorColor){
-    console.log('dewefad',coordenadas.marcadorColor?.getLngLat());
-    
-    this.mapa.flyTo({
-      center:coordenadas.marcadorColor?.getLngLat()
-    })
-        // Se crea arreglo 
-        const lngArr:MarcadorColor[]=[]
-        this.marcadores.forEach(m => {
-          const color = m.color
-          const {lng, lat} = m.marcadorColor!.getLngLat();
-          lngArr.push({
-            color,
-            centro:[ lng, lat]
-          })
-        })
-    localStorage.setItem('marcadores', JSON.stringify(lngArr))
 
-      }
-  } */
-  
   irMarcador(coordenadas:mapboxgl.Marker){
     this.mapa.flyTo({
       center:coordenadas.getLngLat()
     })
   }
+  /*Se guarda marcador en el LocalStorage */
   addMarcadorLocalStorage(){
     // Se crea arreglo 
     const lngArr:MarcadorColor[]=[]
@@ -126,5 +106,28 @@ export class MarcadoresComponent implements AfterViewInit {
       })
     })
     localStorage.setItem('marcadores', JSON.stringify(lngArr))
+  }
+  readLocalSorage(){
+    if(!localStorage.getItem('marcadores')){
+      return
+    }
+    const lngLatArr: MarcadorColor[]= JSON.parse(localStorage.getItem('marcadores')!)
+    console.log(lngLatArr);
+    lngLatArr.forEach(m => {
+      const newMarcador= new mapboxgl.Marker({
+        color:m.color,
+        draggable:true,
+
+      })
+      .setLngLat(m.centro!)
+      .addTo(this.mapa);
+
+      this.marcadores.push({
+        marcadorColor:newMarcador,
+        color: m.color
+      })
+    })
+
+    
   }
 }
